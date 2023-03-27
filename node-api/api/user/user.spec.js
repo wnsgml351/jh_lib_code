@@ -1,10 +1,16 @@
 const request = require('supertest');
 const should = require('should');
 const app  = require('../../index');
+const models = require('../../models');
 
-
-describe('GET /users는 ', () => {
+describe.only('GET /users는 ', () => {
     describe('성공시', () => {
+
+        const users = [ {name: 'alice'}, {name: 'bek'}, {name: 'chris'}];
+
+        before(() => models.sequelize.sync({force: true}));
+        before(() => models.User.bulkCreate(users));
+        
         it('유저 객체를 담은 배열로 응답한다 ', (done)=> {
             request(app)
                 .get('/users')
