@@ -13,7 +13,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=test mocha api/user/user.spec.js",
+    "test": "cross-env NODE_ENV=test mocha api/user/user.spec.js -w",
     "start": "node bin/www.js"
   },
   "author": "",
