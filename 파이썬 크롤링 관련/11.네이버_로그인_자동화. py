@@ -6,6 +6,10 @@ from selenium.webdriver.common.by import By
 # 크롬 드라이버 자동 업데이트
 from webdriver_manager.chrome import ChromeDriverManager
 
+import time
+import pyautogui
+import pyperclip
+
 # 브라우저 꺼짐 방지
 chrome_options = Options()
 chrome_options.add_experimental_option("detach", True)
@@ -24,4 +28,18 @@ driver.get("https://nid.naver.com/nidlogin.login?mode=form&url=https%3A%2F%2Fwww
 # 아이디 입력창
 id = driver.find_element(By.CSS_SELECTOR, "#id")
 id.click()
-id.send_keys()
+pyperclip.copy("wnsgml351")
+pyautogui.hotkey("ctrl", "v")
+time.sleep(2)
+
+# 비밀번호 입력창
+pw = driver.find_element(By.CSS_SELECTOR, "#pw")
+pw.click()
+pyperclip.copy("비밀번호입력")
+pyautogui.hotkey("ctrl", "v")
+time.sleep(2)
+
+# 로그인 버튼
+login_btn = driver.find_element(By.CSS_SELECTOR, "#log\.login")
+login_btn.click()
+
