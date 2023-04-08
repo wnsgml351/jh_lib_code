@@ -29,15 +29,20 @@ driver.get("https://nid.naver.com/nidlogin.login?mode=form&url=https%3A%2F%2Fwww
 id = driver.find_element(By.CSS_SELECTOR, "#id")
 id.click()
 pyperclip.copy("wnsgml351")
-pyautogui.hotkey("ctrl", "v")
-time.sleep(2)
+time.sleep(1)
+pyautogui.keyDown('command')
+pyautogui.press('v')
+pyautogui.keyUp('command')
 
 # 비밀번호 입력창
 pw = driver.find_element(By.CSS_SELECTOR, "#pw")
 pw.click()
-pyperclip.copy("비밀번호입력")
-pyautogui.hotkey("ctrl", "v")
-time.sleep(2)
+time.sleep(1)
+pyperclip.copy("12334")
+pyautogui.keyDown('command')
+pyautogui.press('v')
+pyautogui.keyUp('command')
+
 
 # 로그인 버튼
 login_btn = driver.find_element(By.CSS_SELECTOR, "#log\.login")

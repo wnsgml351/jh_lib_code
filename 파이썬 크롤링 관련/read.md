@@ -1,6 +1,6 @@
 1. 파이썬 셀레니움 설치
     pip install selenium
-
+    mac : pip3 명령어
 
 2. pip 업데이트
 pip install --upgrade pip
