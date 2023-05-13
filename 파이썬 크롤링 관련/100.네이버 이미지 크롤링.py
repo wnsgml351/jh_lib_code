@@ -13,15 +13,22 @@ from webdriver_manager.chrome import ChromeDriverManager
 import pyautogui
 import os
 
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context
+
 # 키워드 입력
 keyword = pyautogui.prompt("검색어를 입력하세요.")
 
 # 주소창
 url = f"https://search.naver.com/search.naver?where=image&sm=tab_jum&query={keyword}"
 
+# 현재 경로
+current_path = os.getcwd()
+
 # 폴더 생성
-if not os.path.exists(f"이미지"):
-    os.mkdir(f"이미지")
+savepath = current_path + "/" + "이미지" + "/" + keyword
+if not (os.path.isdir(savepath)):
+    os.makedirs(os.path.join(savepath))
 
 
 
@@ -71,4 +78,4 @@ for i, img in enumerate(imgs):
     img_src = img.get_attribute("src")
     print(i, img_src)
 
-    urllib.request.urlretrieve(img_src, f"이미지\{i}.png")
+    urllib.request.urlretrieve(img_src, f"{savepath}/{i}.png")
