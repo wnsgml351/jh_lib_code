@@ -1,5 +1,4 @@
-# 네이버에 검색을 하면 검색어를 기준으로 이미지 500개를 다운로드하기
-
+# 구글 검색해서 이미지 다운로드 하기
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
@@ -17,16 +16,17 @@ import ssl
 ssl._create_default_https_context = ssl._create_unverified_context
 
 # 키워드 입력
-keyword = pyautogui.prompt("검색어를 입력하세요.")
+# keyword = pyautogui.prompt("검색어를 입력하세요.")
 
 # 주소창
-url = f"https://search.naver.com/search.naver?where=image&sm=tab_jum&query={keyword}"
+# url = f"https://www.google.com/search?{keyword}&rlz=1C5CHFA_enKR1012KR1012&sxsrf=APwXEddiSCxFtvrgh4QNfsCDdurING6L8A:1683967299095&source=lnms&tbm=isch&sa=X&ved=2ahUKEwiw2bOF8_H-AhVBEHAKHdDsC0IQ_AUoAXoECAEQAw&biw=1440&bih=711&dpr=2"
+url = "https://www.google.com/search?q=%EA%B3%A0%EC%96%91%EC%9D%B4&rlz=1C5CHFA_enKR1012KR1012&biw=1440&bih=666&tbm=isch&source=hp&biw=&bih=&ei=ylBfZJuuM-2w2roPyYeW0AQ&iflsig=AOEireoAAAAAZF9e2lQytwdz8CKyRrFXdW0ZF5IObXcq&ved=0ahUKEwibu6y09vH-AhVtmFYBHcmDBUoQ4dUDCAc&uact=5&oq=%EA%B3%A0%EC%96%91%EC%9D%B4&gs_lcp=CgNpbWcQAzIICAAQgAQQsQMyCAgAEIAEELEDMggIABCABBCxAzIICAAQgAQQsQMyCAgAEIAEELEDMggIABCABBCxAzIICAAQgAQQsQMyBQgAEIAEMggIABCABBCxAzIFCAAQgARQwgFYrgdgqgloAXAAeACAAWmIAZoFkgEDNS4ymAEAoAEBqgELZ3dzLXdpei1pbWewAQA&sclient=img"
 
 # 현재 경로
 current_path = os.getcwd()
 
 # 폴더 생성
-savepath = current_path + "/" + "이미지" + "/" + keyword
+savepath = current_path + "/" + "이미지" + "/" + "고양이"
 if not (os.path.isdir(savepath)):
     os.makedirs(os.path.join(savepath))
 
@@ -67,13 +67,25 @@ while True:
 
     before_h = after_h
 
-# 이미지 태그 추출
-imgs = browser.find_elements(By.CSS_SELECTOR, "._image._listImage")
+# 섬네일 이미지 태그 추출
+thum_imgs = browser.find_elements(By.CSS_SELECTOR, ".rg_i.Q4LuWd")
 
-for i, img in enumerate(imgs):
+for i, thum_img in enumerate(thum_imgs):
 
-    # 각 이미지의 태그 주소
-    img_src = img.get_attribute("src")
-    print(i, img_src)
+    # 이미지를 클릭하기
+    thum_img.click()
 
+    # 시간 기다리기
+    time.sleep(1)
+
+    # 큰 이미지 주소 추출
+    target = browser.find_element(By.CSS_SELECTOR, "img.r48jcc")
+    img_src = target.get_attribute("src")
+
+    # 이미지 다운로드시 403 forhidden이 발생함
+    opener = urllib.request.build_opener()
+    opener.addheaders = [('User-Agent', 'Mozila/5.0')]
+    urllib.request.install_opener(opener)
+
+    # 이미지 다운로드
     urllib.request.urlretrieve(img_src, f"{savepath}/{i}.png")
